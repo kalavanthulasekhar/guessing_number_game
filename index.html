@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess Number Game</title>
+</head>
+<body>
+  <h1>Guess the number (1–5)</h1>
+  <p>You have <b>5 attempts</b>. Gain +1 for correct, -1 for incorrect. Reach 3 points to win!</p>
+
+  <input type="number" placeholder="Enter your guess" id="guessInput" min="1" max="5">
+  <br><br>
+  <button onclick="submitGuess()">Submit Guess</button>
+
+  <p id="message"></p>
+  <p>Attempts left: <span id="attempts">5</span></p>
+  <p id="score">Score: 0</p>
+
+  <button onclick="restart()">Restart Game</button>
+
+  <script>
+     let randomNumber = Math.floor(Math.random() * 5) + 1;
+    let attempts = 5;
+    let score = 0;
+
+    function submitGuess() {
+      const guess = Number(document.getElementById('guessInput').value);
+      const message = document.getElementById('message');
+
+      if (attempts <= 0 || score >= 3) {
+        message.textContent = "Game over! Please restart the game.";
+        return;
+      }
+
+      if (!guess || guess < 1 || guess > 5) {
+        message.textContent = "Please enter a valid number between 1 and 5.";
+        return;
+      }
+
+      if (guess === randomNumber) {
+        score++;
+        message.textContent = `Correct! The number was ${randomNumber}. +1 point!`;
+      } else {
+        score--;
+        message.textContent = ` Wrong! The number was ${randomNumber}. -1 point!`;
+      }
+
+      attempts--;
+      document.getElementById('score').textContent = `Score: ${score}`;
+      document.getElementById('attempts').textContent = attempts;
+
+      if (score >= 3) {
+        message.textContent += "  Congratulations! You win!";
+      } else if (attempts <= 0) {
+        message.textContent += "  No attempts left! Game over!";
+      }
+
+      // Generate new random number for next round
+      randomNumber = Math.floor(Math.random() * 5) + 1;
+    }
+
+    function restart() {
+      attempts = 5;
+      score = 0;
+      randomNumber = Math.floor(Math.random() * 5) + 1;
+      document.getElementById('score').textContent = `Score: ${score}`;
+      document.getElementById('attempts').textContent = attempts;
+      document.getElementById('message').textContent = "Game restarted! Make your guess.";
+      document.getElementById('guessInput').value = "";
+    }
+
+
+
+
+
+  </script>
+</body>
+</html>
+
